@@ -17,25 +17,25 @@ directory and run this command in `bazel-toolchain` directory:
 
 ```
   $ ./rbe_configs_gen \
-    --bazel_version=6.4.0 \
-    --toolchain_container=gcr.io/bazel-public/ubuntu2204@sha256:1d1511b540112d05070c6d79d5033412e67092bea65c997e09ed306476d4a300 \
+    --bazel_version=7.6.1 \
+    --toolchain_container=gcr.io/bazel-public/ubuntu2404@sha256:a5e969f2208ae4ab3cbe18cd85971f1f602345a650495674736a66b3ef9a55d1 \
     --output_src_root .
     --output_config_path=path/to/config-directory \
     --exec_os=linux \
     --target_os=linux \
-    --cpp_env_json=ubuntu2204.json
+    --cpp_env_json=ubuntu2404.json
 ```
 
-Used ubuntu2204.json file:
+Used ubuntu2404.json file:
 
 ```
 {
-  "ABI_LIBC_VERSION": "glibc_2.19",
+  "ABI_LIBC_VERSION": "glibc_2.39",
   "ABI_VERSION": "gcc",
   "BAZEL_COMPILER": "gcc",
-  "BAZEL_HOST_SYSTEM": "i686-unknown-linux-gnu",
+  "BAZEL_HOST_SYSTEM": "x86_64-unknown-linux-gnu",
   "BAZEL_TARGET_CPU": "k8",
-  "BAZEL_TARGET_LIBC": "glibc_2.19",
+  "BAZEL_TARGET_LIBC": "glibc_2.39",
   "BAZEL_TARGET_SYSTEM": "x86_64-unknown-linux-gnu",
   "CC": "gcc",
   "CC_TOOLCHAIN_NAME": "linux_gnu_x86"

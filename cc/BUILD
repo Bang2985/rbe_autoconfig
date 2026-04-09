@@ -16,7 +16,7 @@
 
 load(":cc_toolchain_config.bzl", "cc_toolchain_config")
 load(":armeabi_cc_toolchain_config.bzl", "armeabi_cc_toolchain_config")
-load("@rules_cc//cc:defs.bzl", "cc_toolchain", "cc_toolchain_suite")
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_toolchain", "cc_toolchain_suite")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -55,8 +55,15 @@ filegroup(
 )
 
 filegroup(
+    name = "validate_static_library",
+    srcs = ["validate_static_library.sh"],
+)
+
+filegroup(
     name = "compiler_deps",
-    srcs = glob(["extra_tools/**"], allow_empty = True) + [":builtin_include_directory_paths"],
+    srcs = glob(["extra_tools/**"], allow_empty = True) + [":builtin_include_directory_paths",
+    ":cc_wrapper",
+    ":validate_static_library"],
 )
 
 # This is the entry point for --crosstool_top.  Toolchains are found
@@ -84,6 +91,7 @@ cc_toolchain(
     linker_files = ":compiler_deps",
     objcopy_files = ":empty",
     strip_files = ":empty",
+    supports_header_parsing = 1,
     supports_param_files = 1,
     module_map = None,
 )
@@ -93,18 +101,18 @@ cc_toolchain_config(
     cpu = "k8",
     compiler = "gcc",
     toolchain_identifier = "linux_gnu_x86",
-    host_system_name = "i686-unknown-linux-gnu",
+    host_system_name = "x86_64-unknown-linux-gnu",
     target_system_name = "x86_64-unknown-linux-gnu",
-    target_libc = "glibc_2.19",
+    target_libc = "glibc_2.39",
     abi_version = "gcc",
-    abi_libc_version = "glibc_2.19",
-    cxx_builtin_include_directories = ["/usr/lib/gcc/x86_64-linux-gnu/11/include",
+    abi_libc_version = "glibc_2.39",
+    cxx_builtin_include_directories = ["/usr/lib/gcc/x86_64-linux-gnu/13/include",
     "/usr/local/include",
     "/usr/include/x86_64-linux-gnu",
     "/usr/include",
-    "/usr/include/c++/11",
-    "/usr/include/x86_64-linux-gnu/c++/11",
-    "/usr/include/c++/11/backward",
+    "/usr/include/c++/13",
+    "/usr/include/x86_64-linux-gnu/c++/13",
+    "/usr/include/c++/13/backward",
     "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"],
     tool_paths = {"ar": "/usr/bin/ar",
         "ld": "/usr/bin/ld",
@@ -117,7 +125,10 @@ cc_toolchain_config(
         "nm": "/usr/bin/nm",
         "objcopy": "/usr/bin/objcopy",
         "objdump": "/usr/bin/objdump",
-        "strip": "/usr/bin/strip"},
+        "strip": "/usr/bin/strip",
+        "c++filt": "/usr/bin/c++filt",
+        "parse_headers": "cc_wrapper.sh",
+        "validate_static_library": "validate_static_library.sh"},
     compile_flags = ["-fstack-protector",
     "-Wall",
     "-Wunused-but-set-parameter",
@@ -152,6 +163,7 @@ cc_toolchain_config(
     coverage_compile_flags = ["--coverage"],
     coverage_link_flags = ["--coverage"],
     supports_start_end_lib = True,
+    extra_flags_per_feature = {},
 )
 
 # Android tooling requires a default toolchain for the armeabi-v7a cpu.

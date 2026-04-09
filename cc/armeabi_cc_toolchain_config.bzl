@@ -15,9 +15,13 @@
 """A Starlark cc_toolchain configuration rule"""
 
 load(
-    "@bazel_tools//tools/cpp:cc_toolchain_config_lib.bzl",
+    "@rules_cc//cc:cc_toolchain_config_lib.bzl",
     "feature",
     "tool_path",
+)
+load(
+    "@rules_cc//cc/toolchains:cc_toolchain_config_info.bzl",
+    "CcToolchainConfigInfo",
 )
 
 def _impl(ctx):
