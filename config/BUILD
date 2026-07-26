@@ -23,7 +23,7 @@ toolchain(
     exec_compatible_with = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64",
-        "@rules_cc//cc/private/toolchain:clang",
+        "@bazel_tools//tools/cpp:clang",
     ],
     target_compatible_with = [
         "@platforms//os:linux",
@@ -39,10 +39,10 @@ platform(
     constraint_values = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64",
-        "@rules_cc//cc/private/toolchain:clang",
+        "@bazel_tools//tools/cpp:clang",
     ],
     exec_properties = {
-        "container-image": "docker://gcr.io/bazel-public/ubuntu2404@sha256:a5e969f2208ae4ab3cbe18cd85971f1f602345a650495674736a66b3ef9a55d1",
+        "container-image": "docker://gcr.io/bazel-public/ubuntu2404@sha256:57bbaa84bec679736c53dcd1d326e8f835b3b9ce3e36c12a3c12a07eb59177d3",
         "OSFamily": "Linux",
     },
 )

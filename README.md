@@ -1,6 +1,6 @@
 #### RBE toolchain config for a given combination of Bazel release and docker image
 
-Clone the [bazel-toolchain](https://github.com/bazelbuild/bazel-toolchains.git)
+Clone the [bazel-toolchains](https://github.com/bazelbuild/bazel-toolchains.git)
 project.
 
 Build the `rbe_configs_gen` with the following command:
@@ -16,11 +16,10 @@ Clone this repository to `/home/<user>/projects/rbe_autoconfig`
 directory and run this command in `bazel-toolchain` directory:
 
 ```
-  $ ./rbe_configs_gen \
-    --bazel_version=7.6.1 \
-    --toolchain_container=gcr.io/bazel-public/ubuntu2404@sha256:a5e969f2208ae4ab3cbe18cd85971f1f602345a650495674736a66b3ef9a55d1 \
-    --output_src_root .
-    --output_config_path=path/to/config-directory \
+  $ <path/to/bazel/toolchains>/rbe_configs_gen \
+    --bazel_version=9.2.0 \
+    --toolchain_container=gcr.io/bazel-public/ubuntu2404@sha256:57bbaa84bec679736c53dcd1d326e8f835b3b9ce3e36c12a3c12a07eb59177d3 \
+    --output_src_root . \
     --exec_os=linux \
     --target_os=linux \
     --cpp_env_json=ubuntu2404.json
@@ -55,7 +54,6 @@ http_archive(
         "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
     ],
 )
-
 ```
 
 MODULE.bazel
