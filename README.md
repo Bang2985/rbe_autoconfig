@@ -41,27 +41,15 @@ Used ubuntu2404.json file:
 }
 ```
 
-Conduct new release on GitHub and upload `tar.gz` archive to GCloud bucket.
-Consume the new release from Gerrit project:
+Commit and push the regenerated config. Consume it from the Gerrit
+project by pinning the commit in `MODULE.bazel` (Bazel 9.x removed
+`WORKSPACE`, so Bzlmod is the only supported path):
 
-WORKSPACE
-```python
-http_archive(
-    name = "ubuntu2204_jdk21",
-    sha256 = "8ea82b81c9707e535ff93ef5349d11e55b2a23c62bcc3b0faaec052144aed87d",
-    strip_prefix = "rbe_autoconfig-5.1.0",
-    urls = [
-        "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
-    ],
-)
-```
-
-MODULE.bazel
 ```python
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
-    remote = "https://github.com/davido/rbe_autoconfig",
-    commit = "e1677949eca2abe4c37e5f5b2a69529deb44a3d4",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
+    commit = "f19673d99a078b9f739e5738f75b254364fe777b",
 )
 ```
